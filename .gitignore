@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb  # Ignore all Jupyter Notebook files
+
+# Pytest
+.cache
+*.cover
+*.log
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# IDE and Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Miscellaneous
+*.DS_Store
+*.egg
+*.egg-info
