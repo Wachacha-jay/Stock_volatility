@@ -1,34 +1,39 @@
 """This module extracts information from your `.env` file so that
 you can use your AplhaVantage API key in other parts of the application.
 """
-
-# The os library allows you to communicate with a computer's
-# operating system: https://docs.python.org/3/library/os.html
 import os
-
-# pydantic used for data validation: https://pydantic-docs.helpmanual.io/
+from pathlib import Path
 from pydantic_settings import BaseSettings
 
 
-def return_full_path(filename: str = ".env") -> str:
-    """Uses os to return the correct path of the `.env` file."""
-    absolute_path = os.path.abspath(__file__)
-    directory_name = os.path.dirname(absolute_path)
-    full_path = os.path.join(directory_name, filename)
-    return full_path
+def get_env_path(filename: str = ".env") -> str:
+    """
+    Returns the absolute path to the .env file in the project root.
+    Assumes the .env file is in the parent directory of this config file.
+    """
+    current_file_path = Path(__file__).absolute()
+    project_root = current_file_path.parent.parent  # Go up two levels from app/config.py
+    env_path = project_root / filename
+    
+    if not env_path.exists():
+        raise FileNotFoundError(f"No .env file found at: {env_path}")
+    
+    return str(env_path)
 
 
 class Settings(BaseSettings):
-    """Uses pydantic to define settings for project."""
-
+    """Project settings validated using Pydantic."""
+    
     alpha_api_key: str
     db_name: str
-    model_directory: str
-
+    model_dir: str
+    
     class Config:
-        env_file = return_full_path(".env")
-        protected_namespaces = ('settings_',)
+        env_file = get_env_path()
+        env_file_encoding = 'utf-8'
+        case_sensitive = False
+        extra = 'ignore'  # Ignore extra variables in .env
 
-# Create instance of `Settings` class that will be imported
-# in lesson notebooks and the other modules for application.
+
+# Singleton instance of settings to import throughout the application
 settings = Settings()

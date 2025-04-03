@@ -18,7 +18,6 @@ ENV/
 
 # Jupyter Notebook
 .ipynb_checkpoints/
-*.ipynb  # Ignore all Jupyter Notebook files
 
 # Pytest
 .cache

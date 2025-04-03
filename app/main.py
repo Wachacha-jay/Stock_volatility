@@ -3,7 +3,7 @@ import sqlite3
 from fastapi import FastAPI
 from .config import settings  # Importing settings from config.py
 from .data import SQLRepository, AlphaVantageAPI  # Importing data handling classes
-from .model import GarchModel  # Importing the GARCH model class
+from .garch_model import GarchModel  # Importing the GARCH model class
 from .models import FitIn, FitOut, PredictIn, PredictOut, SymbolIn, SymbolOut  # Importing Pydantic models
 
 
@@ -73,7 +73,7 @@ def fit_model(request: FitIn):
         response["success"] = True
 
         # Add `"message"` key to `response` with `filename`
-        response["message"] = f"Trained and saved '{filename}'."
+        response["message"] = f"Trained and saved '{filename}'. Metrics: AIC {model.aic}, BIC {model.bic}"
 
     # Create except block
     except Exception as e:
